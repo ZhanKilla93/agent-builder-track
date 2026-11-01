@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# Agent Builder Track launcher (macOS, Linux, WSL).
+# Starts Claude Code in this folder with the tutor already running.
+#
+#   ./study              what to study next
+#   ./study 2.3          concept check on lesson 2.3
+#   ./study phase 2      checkpoint across phase 2
+#   ./study final        mixed check across everything
+#   ./study ask 3.4 why does stdio serve one client?
+#   ./study app          open the study app in your browser
+#   ./study update       get the latest lessons
+
+cd "$(dirname "$0")" || exit 1
+
+open_in_browser() {
+  if command -v open >/dev/null 2>&1; then open "$1"
+  elif command -v xdg-open >/dev/null 2>&1; then xdg-open "$1"
+  else echo "Open this file in your browser: $1"; fi
+}
+
+case "${1:-}" in
+  app)    open_in_browser "$PWD/index.html"; exit 0 ;;
+  update) git pull; exit 0 ;;
+  help|-h|--help) sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+esac
+
+if ! command -v claude >/dev/null 2>&1; then
+  cat <<'EOF'
+
+Claude Code isn't installed yet. One-time setup:
+
+  1. Install it:
+       curl -fsSL https://claude.ai/install.sh | bash
+  2. Open a NEW terminal window, come back to this folder, and run ./study again.
+     The first time, Claude Code asks you to sign in with your Claude account.
+
+Claude Code needs a paid Claude plan (Pro or higher); the free plan doesn't include it.
+No paid plan? Run ./study app to use the study app, and its "Open in the Claude app" button.
+
+EOF
+  exit 1
+fi
+
+if [ $# -eq 0 ]; then
+  prompt="/next"
+elif [ "$1" = "ask" ]; then
+  shift
+  prompt="/ask $*"
+else
+  prompt="/check $*"
+fi
+
+exec claude "$prompt"

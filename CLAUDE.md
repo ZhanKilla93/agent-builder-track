@@ -10,6 +10,8 @@ The learner works through the lessons in `lessons/` and uses these commands:
 - `/check 2.3`, `/check phase 2`, `/check final`: a Socratic concept check
 - `/ask 3.4 <question>`: ask about a lesson
 
+Learners usually start sessions with the `./study` launcher (`study.cmd` on Windows), which opens Claude Code with one of these commands already sent.
+
 If the learner seems unsure how to start, explain those three commands and suggest `/next`. When they ask about a topic, ground answers in the matching lesson file. Never use em dashes.
 
 ## If you're here to change the app

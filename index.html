@@ -2737,7 +2737,7 @@ function showFallback() {
       <li><span><b>Press send.</b> ${isCheck ? "Then answer its questions one at a time." : "Then ask whatever you like."} It runs on your own Claude account, and a free one works.</span></li>
       <li><span><b>Come back here</b> and mark the lesson done once you pass.</span></li>
     </ol>
-    ${touch ? "" : `<p class="launch-fine"><b>Claude Code</b> opens your copy of this project with <code>${esc(ccCmd.trim())}</code> ready. It needs the repo cloned from <a href="https://github.com/ZhanKilla93/agent-builder-track" target="_blank" rel="noopener">GitHub</a> and <code>claude</code> run in it once.</p>`}
+    ${touch ? "" : `<p class="launch-fine"><b>Claude Code</b> opens your copy of this project with <code>${esc(ccCmd.trim())}</code> ready. It needs a paid Claude plan, the repo cloned from <a href="https://github.com/ZhanKilla93/agent-builder-track" target="_blank" rel="noopener">GitHub</a>, and <code>./study</code> run in it once. After that, <code>./study</code> in the folder starts the tutor by itself.</p>`}
     <p class="launch-fine">No Claude account? <a href="https://claude.ai" target="_blank" rel="noopener">Sign up free at claude.ai</a>.</p>
     <details class="launch-more"><summary>Nothing happened, or the chat opened empty?</summary>
       <p>Tapping a button also copies the full prompt. Open Claude, paste it into the message box and send. Or copy it from here:</p>

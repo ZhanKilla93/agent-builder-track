@@ -38,26 +38,46 @@ Open [the website](https://zhankilla93.github.io/agent-builder-track/), or downl
 
 Tap **Start concept check** on any lesson, then **Open in the Claude app**. Claude opens with your check already typed in: press send and answer its questions. It runs on your own Claude account, and a free one works. No app installed? Use the browser link under the button.
 
-On a computer with this repo cloned, **Open in Claude Code** opens your copy in a terminal with `/check 2.3` (or whichever lesson) ready to run.
+Have a paid Claude plan and a computer? Option 2 is smoother: the tutor starts by itself.
 
-### 2. With Claude Code, on your own Claude plan (best for the tutor)
+### 2. With Claude Code: one command and the tutor starts talking
 
-[Claude Code](https://claude.com/product/claude-code) is Anthropic's app for working with Claude inside a folder on your computer. It runs on your own Claude subscription, and this repo comes with tutor commands built in.
+[Claude Code](https://claude.com/product/claude-code) is Anthropic's app for working with Claude in a folder on your computer. It runs on your own Claude plan. **It needs a paid plan (Pro or higher); the free plan doesn't include it.**
 
-1. Install Claude Code and sign in with your Claude account (follow the steps on its page).
-2. Download this repo: on GitHub, click **Code**, then **Download ZIP**, and unzip it. Or run `git clone https://github.com/ZhanKilla93/agent-builder-track`.
-3. Open a terminal in the `agent-builder-track` folder and run `claude`.
-4. Type one of these:
+**One-time setup**
 
-| Command | What it does |
+1. Install Claude Code. On macOS or Linux, in a terminal:
+   ```
+   curl -fsSL https://claude.ai/install.sh | bash
+   ```
+   On Windows, in PowerShell:
+   ```
+   irm https://claude.ai/install.ps1 | iex
+   ```
+   Then open a new terminal window.
+2. Get this repo:
+   ```
+   git clone https://github.com/ZhanKilla93/agent-builder-track
+   cd agent-builder-track
+   ```
+
+**Every day after that**
+
+Open a terminal in the `agent-builder-track` folder and run `./study` (on Windows: `study` in CMD, `.\study` in PowerShell). Claude Code opens and the tutor starts straight away. The first time, it asks you to sign in and to trust the folder.
+
+| Type | What happens |
 | --- | --- |
-| `/next` | Tells you what to study next |
-| `/check 2.3` | Concept check on lesson 2.3, one question at a time |
-| `/check phase 2` | Checkpoint across a whole phase |
-| `/check final` | Mixed check across everything |
-| `/ask 3.4 why does stdio only serve one client?` | Ask about a lesson |
+| `./study` | Tells you what to study next |
+| `./study 2.3` | Concept check on lesson 2.3 starts immediately |
+| `./study phase 2` | Checkpoint across a whole phase |
+| `./study final` | Mixed check across everything |
+| `./study ask 3.4 why does stdio serve one client?` | Ask about a lesson |
+| `./study app` | Opens the study app in your browser |
+| `./study update` | Gets the latest lessons |
 
-Read the lessons in the `lessons/` folder, or on the website. After each check, Claude saves a short "solid / revise" note to `my-progress.md` in your copy, so `/next` knows where you are.
+After each check, Claude saves a short "solid / revise" note to `my-progress.md` in your copy, so `./study` knows what to suggest next. Inside Claude Code you can also type `/check 2.3`, `/ask` and `/next` directly.
+
+Once you've run `./study` once, the **Open in Claude Code** button in the study app works too: it opens your copy with the check ready to go.
 
 ### 3. Host your own copy as a website
 
