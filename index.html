@@ -2449,7 +2449,7 @@ function renderHome() {
       <div class="btn-row">${cta}</div>
     </section>
     ${window.claude && window.claude.use ? "" : `<section class="in-claude">
-      <div><h2>Use it inside Claude</h2><p>Open this app in Claude and the tutor chats right on the page, on your own Claude account. A free account works. Tap <b>Duplicate</b> once it opens so your progress saves.</p></div>
+      <div><h2>Use it inside Claude</h2><p>Open this app in Claude and the tutor chats right on the page, on your own Claude account. A free account works. Keep using the same link and you always get the latest version.</p></div>
       <a class="btn primary" href="https://claude.ai/artifact/RvJ7Cpjej8MtTAq3z2ZjSf" target="_blank" rel="noopener">Open the app in Claude</a></section>`}
     <section>
       <div class="sec-h"><h2>Each lesson, in order</h2></div>
@@ -2737,7 +2737,7 @@ function showFallback() {
   const d = addMsg("note launch", `
     <p class="launch-lead">The tutor needs your Claude account.</p>
     <a class="btn primary launch-btn" href="https://claude.ai/artifact/RvJ7Cpjej8MtTAq3z2ZjSf" target="_blank" rel="noopener">Open this app in Claude</a>
-    <p class="launch-fine" style="margin-top:-6px">Best option: the tutor chats inside the app, on your own Claude account. Tap <b>Duplicate</b> when it opens.</p>
+    <p class="launch-fine" style="margin-top:-6px">Best option: the tutor chats inside the app, on your own Claude account.</p>
     <a class="btn launch-btn2" data-copy href="${appUrl}">Just this check, in the Claude app</a>
     ${touch ? "" : `<a class="btn launch-btn2" href="${ccUrl}">Open in Claude Code</a>`}
     <a class="launch-web" data-copy href="${webUrl}" target="_blank" rel="noopener">No app? Open in your browser instead</a>

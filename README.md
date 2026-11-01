@@ -4,7 +4,7 @@ A self-study app for learning to build AI agents with Claude, from your first AP
 
 ### Have a Claude account? [Open the app in Claude](https://claude.ai/artifact/RvJ7Cpjej8MtTAq3z2ZjSf)
 
-That's the full app with the tutor chatting right inside it, on your own Claude account (a free one works). When it opens, tap **Duplicate** so your progress saves to your account.
+That's the full app with the tutor chatting right inside it, on your own Claude account (a free one works). Keep using that same link: it always has the latest version, and your progress saves in your browser.
 
 No Claude account? Use the website: [zhankilla93.github.io/agent-builder-track](https://zhankilla93.github.io/agent-builder-track/)
 
