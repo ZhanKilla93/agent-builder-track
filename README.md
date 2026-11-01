@@ -2,7 +2,11 @@
 
 A self-study app for learning to build AI agents with Claude, from your first API call to designing multi-agent systems. The topics follow the Claude Certified Architect (Foundations) exam, CCAR-F.
 
-It's one HTML file. No install, no account, no build step.
+**Open it here: [zhankilla93.github.io/agent-builder-track](https://zhankilla93.github.io/agent-builder-track/)**
+
+Free, no account needed. It's one HTML file: no install, no build step.
+
+Built by Mostafa Khan ([@ZhanKilla93](https://github.com/ZhanKilla93)).
 
 ## What's inside
 
@@ -56,3 +60,7 @@ The lessons are written for this track. They cover the same topics as these free
 - [AI Cert Guides, CCAR-F track](https://claudecertificationguide.com/learn)
 
 Not affiliated with Anthropic or AI Cert Guides. Model names and exam details are as of November 2026; check the official pages for changes. The certification exam itself is only open to staff of Claude Partner Network organisations.
+
+## License
+
+© 2026 Mostafa Khan. Licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/): you can share and adapt it with credit and a link back to this repo, but you can't sell it or use it commercially. See [LICENSE](LICENSE).

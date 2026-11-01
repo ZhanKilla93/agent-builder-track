@@ -259,6 +259,8 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); }
 .tutor-actions { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
 .copybox { font-family: var(--font-mono); font-size: 12px; width: 100%; min-height: 140px; border: 1px solid var(--line); border-radius: 8px; padding: 10px; background: var(--bg); color: var(--ink); }
 
+.credit { font-size: 13px; color: var(--muted); margin: 10px 10px 0; line-height: 1.5; }
+.credit a { color: var(--muted); }
 .btn, .opt, .icon-btn { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .version { display: block; margin-top: 4px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
 .err-toast { position: fixed; z-index: 60; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); padding: 12px 14px; border-radius: 10px; background: var(--bad-soft); color: var(--ink); border: 1px solid var(--bad); font-size: 14px; }
@@ -280,6 +282,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); }
   <aside id="side" class="side" aria-label="Lesson index">
     <nav id="nav"></nav>
     <p id="syncNote" class="sync">Saved on this device</p>
+    <p class="credit">Built by Mostafa Khan · <a href="https://github.com/ZhanKilla93" target="_blank" rel="noopener">github.com/ZhanKilla93</a><br>Free to share with credit. Not for resale (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>).</p>
   </aside>
   <div id="scrim" class="scrim" hidden></div>
   <main id="main" class="main" tabindex="-1"></main>
@@ -2449,6 +2452,7 @@ function renderHome() {
       </div>
     </section>
     <p class="fine">Lessons are written for this track and cover the same topics as Claude Academy, Anthropic's docs, the MCP docs and the CCAR-F exam guide. Each phase links to the originals if you want to go deeper.</p>
+    <p class="fine">Built by Mostafa Khan · <a href="https://github.com/ZhanKilla93" target="_blank" rel="noopener">github.com/ZhanKilla93</a>. Free to share with credit; not for resale (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>).</p>
   </div>`;
 }
 function capPct() { const p = PHASES[8]; const items = [...p.caps, ...p.exam]; return Math.round((items.filter(i => P.caps[i[0]]).length / items.length) * 100); }
