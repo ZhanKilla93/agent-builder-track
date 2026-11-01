@@ -262,6 +262,9 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); }
 .msg.launch { border: 1px solid var(--line); border-style: solid; background: var(--surface); color: var(--ink); display: grid; gap: 14px; padding: 18px; font-size: 15.5px; }
 .launch-lead { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 19px; line-height: 1.3; }
 .launch-btn { width: 100%; min-height: 54px; font-size: 17px; }
+.launch-btn2 { width: 100%; min-height: 48px; margin-top: -6px; }
+.launch-web { justify-self: center; font-size: 14.5px; margin-top: -4px; }
+.launch-steps li > span { min-width: 0; }
 .launch-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: s; }
 .launch-steps li { counter-increment: s; display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; line-height: 1.45; }
 .launch-steps li::before { content: counter(s); width: 28px; height: 28px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-weight: 700; font-family: var(--font-mono); font-size: 13px; display: grid; place-items: center; }
@@ -2716,24 +2719,32 @@ function showFallback() {
   $("#tutorForm").hidden = true;
   const short = linkPrompt(T.mode, T.scope);
   const full = T.turns[0].content;
-  const url = "https://claude.ai/new?q=" + encodeURIComponent(short);
-  const cc = T.scope === "final" ? "/check final" : T.scope[0] === "p" ? "/check phase " + T.scope.slice(1) : "/check " + num(T.scope);
+  const q = encodeURIComponent(short);
+  const appUrl = "claude://claude.ai/new?q=" + q;           // Claude desktop app (and mobile app where supported)
+  const webUrl = "https://claude.ai/new?q=" + q;            // browser fallback
+  const scopeArg = T.scope === "final" ? (T.mode === "check" ? "final" : "") : T.scope[0] === "p" ? "phase " + T.scope.slice(1) : num(T.scope);
+  const ccCmd = T.mode === "check" ? "/check " + scopeArg : "/ask " + (scopeArg ? scopeArg + " " : "");
+  const ccUrl = "claude-cli://open?repo=ZhanKilla93/agent-builder-track&q=" + encodeURIComponent(ccCmd);
+  const touch = window.matchMedia("(pointer: coarse)").matches;
+  const isCheck = T.mode === "check";
   const d = addMsg("note launch", `
-    <p class="launch-lead">${T.mode === "check" ? "Your concept check runs in your own Claude chat." : "Ask your questions in your own Claude chat."}</p>
-    <a class="btn primary launch-btn" id="launchBtn" href="${url}" target="_blank" rel="noopener">Open in Claude</a>
+    <p class="launch-lead">${isCheck ? "Run this check in your own Claude." : "Ask your questions in your own Claude."}</p>
+    <a class="btn primary launch-btn" data-copy href="${appUrl}">Open in the Claude app</a>
+    ${touch ? "" : `<a class="btn launch-btn2" href="${ccUrl}">Open in Claude Code</a>`}
+    <a class="launch-web" data-copy href="${webUrl}" target="_blank" rel="noopener">No app? Open in your browser instead</a>
     <ol class="launch-steps">
-      <li><b>Tap Open in Claude.</b> A new tab opens with your ${T.mode === "check" ? "check" : "tutor"} already set up.</li>
-      <li><b>${T.mode === "check" ? "Answer its questions" : "Ask away"}</b> right there. It runs on your own Claude account, free or paid.</li>
-      <li><b>Come back here</b> and mark the lesson done once you pass.</li>
+      <li><span><b>Tap a button above.</b> Claude opens with your ${isCheck ? "check" : "tutor"} already typed in.</span></li>
+      <li><span><b>Press send.</b> ${isCheck ? "Then answer its questions one at a time." : "Then ask whatever you like."} It runs on your own Claude account, and a free one works.</span></li>
+      <li><span><b>Come back here</b> and mark the lesson done once you pass.</span></li>
     </ol>
-    <p class="launch-fine">No Claude account? <a href="https://claude.ai" target="_blank" rel="noopener">Sign up free at claude.ai</a>, then tap the button again.</p>
-    <details class="launch-more"><summary>Chat opened empty?</summary>
-      <p>The full prompt is also copied when you tap the button. Paste it into Claude's message box and send. Or copy it from here:</p>
+    ${touch ? "" : `<p class="launch-fine"><b>Claude Code</b> opens your copy of this project with <code>${esc(ccCmd.trim())}</code> ready. It needs the repo cloned from <a href="https://github.com/ZhanKilla93/agent-builder-track" target="_blank" rel="noopener">GitHub</a> and <code>claude</code> run in it once.</p>`}
+    <p class="launch-fine">No Claude account? <a href="https://claude.ai" target="_blank" rel="noopener">Sign up free at claude.ai</a>.</p>
+    <details class="launch-more"><summary>Nothing happened, or the chat opened empty?</summary>
+      <p>Tapping a button also copies the full prompt. Open Claude, paste it into the message box and send. Or copy it from here:</p>
       <textarea class="copybox" readonly id="copyPrompt">${esc(full)}</textarea>
       <div class="btn-row"><button type="button" class="btn" id="copyBtn">Copy prompt</button></div>
-    </details>
-    <p class="launch-fine">Use Claude Code? Download the project from <a href="https://github.com/ZhanKilla93/agent-builder-track" target="_blank" rel="noopener">GitHub</a> and run <code>${cc}</code>.</p>`);
-  $("#launchBtn", d).addEventListener("click", () => { try { navigator.clipboard.writeText(full).catch(() => {}); } catch (e) {} });
+    </details>`);
+  d.querySelectorAll("[data-copy]").forEach(a => a.addEventListener("click", () => { try { navigator.clipboard.writeText(full).catch(() => {}); } catch (e) {} }));
   $("#copyBtn", d).onclick = async () => {
     const ta = $("#copyPrompt", d);
     try { await navigator.clipboard.writeText(ta.value); $("#copyBtn", d).textContent = "Copied"; }

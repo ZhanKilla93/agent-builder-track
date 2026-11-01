@@ -36,7 +36,9 @@ Pace: about an hour a day.
 
 Open [the website](https://zhankilla93.github.io/agent-builder-track/), or download this repo and double-click `index.html`.
 
-Tap **Start concept check** on any lesson, then **Open in Claude**. Claude opens in a new tab with your check already set up, and it runs on your own Claude account (a free one works). Answer its questions there, then come back and mark the lesson done.
+Tap **Start concept check** on any lesson, then **Open in the Claude app**. Claude opens with your check already typed in: press send and answer its questions. It runs on your own Claude account, and a free one works. No app installed? Use the browser link under the button.
+
+On a computer with this repo cloned, **Open in Claude Code** opens your copy in a terminal with `/check 2.3` (or whichever lesson) ready to run.
 
 ### 2. With Claude Code, on your own Claude plan (best for the tutor)
 
