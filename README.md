@@ -2,7 +2,11 @@
 
 A self-study app for learning to build AI agents with Claude, from your first API call to designing multi-agent systems. The topics follow the Claude Certified Architect (Foundations) exam, CCAR-F.
 
-**Open it here: [zhankilla93.github.io/agent-builder-track](https://zhankilla93.github.io/agent-builder-track/)**
+### Have a Claude account? [Open the app in Claude](https://claude.ai/artifact/RvJ7Cpjej8MtTAq3z2ZjSf)
+
+That's the full app with the tutor chatting right inside it, on your own Claude account (a free one works). When it opens, tap **Duplicate** so your progress saves to your account.
+
+No Claude account? Use the website: [zhankilla93.github.io/agent-builder-track](https://zhankilla93.github.io/agent-builder-track/)
 
 Free, no account needed. It's one HTML file: no install, no build step.
 

@@ -272,6 +272,10 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); }
 .launch-more summary { cursor: pointer; font-size: 14px; color: var(--muted); }
 .launch-more[open] { display: grid; gap: 8px; }
 .launch-more p { margin: 8px 0 0; font-size: 14px; color: var(--muted); }
+.in-claude { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 18px; border-radius: var(--radius); border: 1px solid var(--accent); background: var(--accent-soft); }
+.in-claude h2 { font-size: 20px; margin-bottom: 4px; }
+.in-claude p { margin: 0; }
+@media (max-width: 620px) { .in-claude { grid-template-columns: 1fr; } }
 .credit { font-size: 13px; color: var(--muted); margin: 10px 10px 0; line-height: 1.5; }
 .credit a { color: var(--muted); }
 .btn, .opt, .icon-btn { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
@@ -2444,6 +2448,9 @@ function renderHome() {
       </div>
       <div class="btn-row">${cta}</div>
     </section>
+    ${window.claude && window.claude.use ? "" : `<section class="in-claude">
+      <div><h2>Use it inside Claude</h2><p>Open this app in Claude and the tutor chats right on the page, on your own Claude account. A free account works. Tap <b>Duplicate</b> once it opens so your progress saves.</p></div>
+      <a class="btn primary" href="https://claude.ai/artifact/RvJ7Cpjej8MtTAq3z2ZjSf" target="_blank" rel="noopener">Open the app in Claude</a></section>`}
     <section>
       <div class="sec-h"><h2>Each lesson, in order</h2></div>
       <div class="steps4">
@@ -2728,8 +2735,10 @@ function showFallback() {
   const touch = window.matchMedia("(pointer: coarse)").matches;
   const isCheck = T.mode === "check";
   const d = addMsg("note launch", `
-    <p class="launch-lead">${isCheck ? "Run this check in your own Claude." : "Ask your questions in your own Claude."}</p>
-    <a class="btn primary launch-btn" data-copy href="${appUrl}">Open in the Claude app</a>
+    <p class="launch-lead">The tutor needs your Claude account.</p>
+    <a class="btn primary launch-btn" href="https://claude.ai/artifact/RvJ7Cpjej8MtTAq3z2ZjSf" target="_blank" rel="noopener">Open this app in Claude</a>
+    <p class="launch-fine" style="margin-top:-6px">Best option: the tutor chats inside the app, on your own Claude account. Tap <b>Duplicate</b> when it opens.</p>
+    <a class="btn launch-btn2" data-copy href="${appUrl}">Just this check, in the Claude app</a>
     ${touch ? "" : `<a class="btn launch-btn2" href="${ccUrl}">Open in Claude Code</a>`}
     <a class="launch-web" data-copy href="${webUrl}" target="_blank" rel="noopener">No app? Open in your browser instead</a>
     <ol class="launch-steps">
