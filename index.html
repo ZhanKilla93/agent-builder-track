@@ -259,6 +259,16 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); }
 .tutor-actions { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
 .copybox { font-family: var(--font-mono); font-size: 12px; width: 100%; min-height: 140px; border: 1px solid var(--line); border-radius: 8px; padding: 10px; background: var(--bg); color: var(--ink); }
 
+.msg.launch { border: 1px solid var(--line); border-style: solid; background: var(--surface); color: var(--ink); display: grid; gap: 14px; padding: 18px; font-size: 15.5px; }
+.launch-lead { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 19px; line-height: 1.3; }
+.launch-btn { width: 100%; min-height: 54px; font-size: 17px; }
+.launch-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: s; }
+.launch-steps li { counter-increment: s; display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; line-height: 1.45; }
+.launch-steps li::before { content: counter(s); width: 28px; height: 28px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-weight: 700; font-family: var(--font-mono); font-size: 13px; display: grid; place-items: center; }
+.launch-fine { margin: 0; font-size: 14px; color: var(--muted); }
+.launch-more summary { cursor: pointer; font-size: 14px; color: var(--muted); }
+.launch-more[open] { display: grid; gap: 8px; }
+.launch-more p { margin: 8px 0 0; font-size: 14px; color: var(--muted); }
 .credit { font-size: 13px; color: var(--muted); margin: 10px 10px 0; line-height: 1.5; }
 .credit a { color: var(--muted); }
 .btn, .opt, .icon-btn { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
@@ -2678,7 +2688,9 @@ function openTutor(mode, scope) {
   $("#tutorFinish").hidden = mode !== "check";
   $("#tutorLog").innerHTML = "";
   $("#tutor").hidden = false; document.body.classList.add("tutor-open");
+  $("#tutorForm").hidden = false;
   setBusy(false);
+  if (!window.claude || !window.claude.use) { showFallback(); return; }
   if (mode === "check") call();
   else { addMsg("note", "Ask about anything in this material. Answers stay inside it, and the tutor will say so if your question goes beyond it."); $("#tutorInput").focus(); }
 }
@@ -2686,10 +2698,42 @@ function closeTutor() {
   if (T.ctl) T.ctl.abort();
   $("#tutor").hidden = true; document.body.classList.remove("tutor-open");
 }
+/* Outside Claude, the tutor runs in the visitor's own Claude chat: one link opens claude.ai with the check pre-filled. */
+function compactMaterial(scope) {
+  if (scope === "final") return "Lessons to cover:\n" + PHASES.filter(p => p.lessons.length).map(p => `Phase ${p.n}, ${p.title}: ` + p.lessons.map(l => l.t).join("; ")).join("\n");
+  if (scope[0] === "p") return PHASES[+scope.slice(1)].lessons.map(l => `${num(l.id)} ${l.t}. Traps: ${l.traps.join(" / ")}`).join("\n");
+  const l = BY_ID[scope];
+  return `Key points:\n- ${l.keys.join("\n- ")}\nTraps to probe:\n- ${l.traps.join("\n- ")}`;
+}
+function linkPrompt(mode, scope) {
+  const info = scopeInfo(scope);
+  const who = "I'm learning to build AI agents with Claude and preparing for the Claude Certified Architect (Foundations) exam. I direct AI to write code, so test my understanding and my ability to read code and JSON, not writing code from memory.";
+  if (mode === "ask") return `Be my tutor. ${who}\n\nTopic: ${info.title}\n${compactMaterial(scope)}\n\nAnswer my questions about this topic directly, under 150 words, with an example where it helps. Correct any misunderstanding plainly. Never use em dashes. Start by asking what I'd like to know.`;
+  return `Be my Socratic tutor. ${who}\n\nTopic: ${info.title}\n${compactMaterial(scope)}\n\nRules: one question per message, basics first, then harder scenario questions. After each answer, say what was right, correct mistakes in one or two sentences, then ask the next question. Probe the traps. Don't praise wrong or vague answers. Under 120 words per message. Never use em dashes. After about ${info.n} questions, or when I say I'm done, summarise what I know well and what to revise. Ask your first question now.`;
+}
 function showFallback() {
   T.unavailable = true;
-  const prompt = T.turns.map(t => t.content).join("\n\n");
-  const d = addMsg("note", `<p>The built-in tutor only works when this page is opened inside Claude with Claude access allowed. You can still run it in any Claude chat: copy the prompt below and paste it as your first message in a new chat at claude.ai.</p><textarea class="copybox" readonly id="copyPrompt">${esc(prompt)}</textarea><div class="btn-row" style="margin-top:8px"><button type="button" class="btn" id="copyBtn">Copy prompt</button></div>`);
+  $("#tutorForm").hidden = true;
+  const short = linkPrompt(T.mode, T.scope);
+  const full = T.turns[0].content;
+  const url = "https://claude.ai/new?q=" + encodeURIComponent(short);
+  const cc = T.scope === "final" ? "/check final" : T.scope[0] === "p" ? "/check phase " + T.scope.slice(1) : "/check " + num(T.scope);
+  const d = addMsg("note launch", `
+    <p class="launch-lead">${T.mode === "check" ? "Your concept check runs in your own Claude chat." : "Ask your questions in your own Claude chat."}</p>
+    <a class="btn primary launch-btn" id="launchBtn" href="${url}" target="_blank" rel="noopener">Open in Claude</a>
+    <ol class="launch-steps">
+      <li><b>Tap Open in Claude.</b> A new tab opens with your ${T.mode === "check" ? "check" : "tutor"} already set up.</li>
+      <li><b>${T.mode === "check" ? "Answer its questions" : "Ask away"}</b> right there. It runs on your own Claude account, free or paid.</li>
+      <li><b>Come back here</b> and mark the lesson done once you pass.</li>
+    </ol>
+    <p class="launch-fine">No Claude account? <a href="https://claude.ai" target="_blank" rel="noopener">Sign up free at claude.ai</a>, then tap the button again.</p>
+    <details class="launch-more"><summary>Chat opened empty?</summary>
+      <p>The full prompt is also copied when you tap the button. Paste it into Claude's message box and send. Or copy it from here:</p>
+      <textarea class="copybox" readonly id="copyPrompt">${esc(full)}</textarea>
+      <div class="btn-row"><button type="button" class="btn" id="copyBtn">Copy prompt</button></div>
+    </details>
+    <p class="launch-fine">Use Claude Code? Download the project from <a href="https://github.com/ZhanKilla93/agent-builder-track" target="_blank" rel="noopener">GitHub</a> and run <code>${cc}</code>.</p>`);
+  $("#launchBtn", d).addEventListener("click", () => { try { navigator.clipboard.writeText(full).catch(() => {}); } catch (e) {} });
   $("#copyBtn", d).onclick = async () => {
     const ta = $("#copyPrompt", d);
     try { await navigator.clipboard.writeText(ta.value); $("#copyBtn", d).textContent = "Copied"; }

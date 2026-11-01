@@ -30,17 +30,38 @@ Built by Mostafa Khan ([@ZhanKilla93](https://github.com/ZhanKilla93)).
 
 Pace: about an hour a day.
 
-## How to open it
+## Three ways to use it
 
-**On your computer:** download or clone this repo and double-click `index.html`. It opens in your browser.
+### 1. In your browser (simplest)
 
-**As a website (GitHub Pages):** in this repo on GitHub, go to Settings, then Pages. Under "Build and deployment", choose "Deploy from a branch", pick `main` and `/ (root)`, and save. After a minute the site is live at `https://<your-username>.github.io/<repo-name>/`, and it works on your phone too.
+Open [the website](https://zhankilla93.github.io/agent-builder-track/), or download this repo and double-click `index.html`.
 
-## Using the concept checks
+Tap **Start concept check** on any lesson, then **Open in Claude**. Claude opens in a new tab with your check already set up, and it runs on your own Claude account (a free one works). Answer its questions there, then come back and mark the lesson done.
 
-Every lesson has a **Start concept check** button. Outside Claude, the page can't talk to Claude directly, so the button gives you a ready-made tutor prompt instead. Copy it, paste it as the first message of a new chat at [claude.ai](https://claude.ai), and Claude quizzes you one question at a time and ends with what to revise.
+### 2. With Claude Code, on your own Claude plan (best for the tutor)
 
-Pass a lesson's concept check without needing corrections before you mark it done.
+[Claude Code](https://claude.com/product/claude-code) is Anthropic's app for working with Claude inside a folder on your computer. It runs on your own Claude subscription, and this repo comes with tutor commands built in.
+
+1. Install Claude Code and sign in with your Claude account (follow the steps on its page).
+2. Download this repo: on GitHub, click **Code**, then **Download ZIP**, and unzip it. Or run `git clone https://github.com/ZhanKilla93/agent-builder-track`.
+3. Open a terminal in the `agent-builder-track` folder and run `claude`.
+4. Type one of these:
+
+| Command | What it does |
+| --- | --- |
+| `/next` | Tells you what to study next |
+| `/check 2.3` | Concept check on lesson 2.3, one question at a time |
+| `/check phase 2` | Checkpoint across a whole phase |
+| `/check final` | Mixed check across everything |
+| `/ask 3.4 why does stdio only serve one client?` | Ask about a lesson |
+
+Read the lessons in the `lessons/` folder, or on the website. After each check, Claude saves a short "solid / revise" note to `my-progress.md` in your copy, so `/next` knows where you are.
+
+### 3. Host your own copy as a website
+
+Fork this repo, then in your fork go to Settings, then Pages. Under "Build and deployment", choose "Deploy from a branch", pick `main` and `/ (root)`, and save. After a minute it's live at `https://<your-username>.github.io/agent-builder-track/`.
+
+Whichever way you use it, pass a lesson's concept check without needing corrections before you mark it done.
 
 ## Your progress
 
